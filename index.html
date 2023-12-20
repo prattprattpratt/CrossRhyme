@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrossRhyme</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>CrossRhyme</h1>
+    <h2>Clue: Austrian National Flower</h2>
+    <form id="form-1" onsubmit="submitGuess(1);return false">
+      <h3>Hint #1: Furniture store robbery</h3>
+      <input type="text" name="guess-1" id="guess-1" />
+      <button type="submit">Submit</button>
+      <span id="status-1"></span>
+    </form>
+    <form id="form-2" onsubmit="submitGuess(2);return false">
+      <h3>Hint #2: Cutting a wire in half</h3>
+      <input type="text" name="guess-2" id="guess-2" />
+      <button type="submit">Submit</button>
+      <span id="status-2"></span>
+    </form>
+  </body>
+</html>
