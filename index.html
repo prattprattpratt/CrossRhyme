@@ -15,16 +15,14 @@
   <body>
     <h1>CrossRhyme</h1>
     <h2>Clue: Austrian National Flower</h2>
-    <form id="form-1" onsubmit="submitGuess(1);return false">
+    <form id="form-1">
       <h3>Hint #1: Furniture store robbery</h3>
-      <input type="text" name="guess-1" id="guess-1" />
-      <button type="submit">Submit</button>
+      <input oninput="submitGuess(1)" type="text" name="guess-1" id="guess-1" />
       <span id="status-1"></span>
     </form>
-    <form id="form-2" onsubmit="submitGuess(2);return false">
+    <form id="form-2">
       <h3>Hint #2: Cutting a wire in half</h3>
-      <input type="text" name="guess-2" id="guess-2" />
-      <button type="submit">Submit</button>
+      <input oninput="submitGuess(2)" type="text" name="guess-2" id="guess-2" />
       <span id="status-2"></span>
     </form>
   </body>

@@ -1,5 +1,7 @@
 body {
   text-align: center;
+  max-width: 700px;
+  margin: auto;
 }
 
 h1 {
@@ -7,19 +9,26 @@ h1 {
   font-family: 'Rubik Doodle Shadow';
 }
 
-h2 {
-  font-size: 35px;
-}
-
-h3 {
-  font-size: 22px;
-}
-
 * {
   font-family: 'EB Garamond';
 }
 
+h2 {
+  font-size: 35px;
+}
+
+h3, input, span, button {
+  font-size: 22px;
+}
+
+span {
+  position: absolute;
+  right: 0;
+  top: 22px;
+}
+
 form {
+  position: relative;
   display: flex;
   align-items: baseline;
   justify-content: center;
