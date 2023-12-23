@@ -21,20 +21,24 @@ h3, input, span, button {
   font-size: 22px;
 }
 
+#clue::before {
+  content: 'Clue: ';
+}
+
 span {
   position: absolute;
   right: 0;
   top: 22px;
 }
 
-form {
+.form {
   position: relative;
   display: flex;
   align-items: baseline;
   justify-content: center;
 }
 
-input {
+input[type=text] {
   margin: 0 -1px 0 16px;
 }
 

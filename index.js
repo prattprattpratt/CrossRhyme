@@ -1,4 +1,51 @@
 window.onload = () => {
+  console.log('index')
+  setup = () => {
+    const puzzleData = [
+      {
+        clue: {
+          'Austrian National Flower': 'eidelweiss',
+        },
+        rhymes: {
+          'Furniture store robbery': 'table heist',
+          'Cutting a wire in half': 'cable splice',
+        }
+      },
+      {
+        clue: {
+          'Recipe': 'cook book',
+        },
+        rhymes: {
+          'Captured chess piece': 'took rook',
+          'Criminal in a small space': 'crook nook',
+          'What Peter Pan says to get his rival’s attention': 'look hook',
+        }
+      },
+    ]
+    localStorage.setItem('puzzle-data', JSON.stringify(puzzleData))
+
+    const firstPuzzle = puzzleData[Math.floor((Math.random() * puzzleData.length))]
+
+    document.getElementById('clue').textContent = Object.keys(firstPuzzle.clue)[0]
+    Array.from(Object.keys(firstPuzzle.rhymes)).forEach((rhyme, i) => {
+      i = i + 1
+      const guessContainer = document.getElementById('guess-container');
+      const guessHTML = `
+        <div class="form" id="form-guess-${i}">
+          <h3 class="hint" id="hint-${i}">Hint #${i}: ${rhyme}</h3>
+          <input type="text" oninput="submitGuess(${i})" id="guess-${i}" />
+          <span id="status-${i}"></span>
+        </div>
+      `
+      guessContainer.insertAdjacentHTML('beforeend', guessHTML);
+    })
+  }
+  setup()
+
+  window.addEventListener('storage', (e) => {
+    console.log(e)
+  });
+  
   submitGuess = (guessNumber) => {
     const guessInput = document.getElementById(`guess-${guessNumber}`)
     const guess = guessInput.value
@@ -62,13 +109,10 @@ window.onload = () => {
     statusElement.classList = statusClass
   }
 
-  httpRequest = (url, method, callback) => {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-        console.log(xmlHttp.responseText);
-    }
-    xmlHttp.open(method, url, true); // true for asynchronous 
-    xmlHttp.send(null); // null for GET
+  toggleSettings = (setting) => {
+    const settingInput = document.getElementById(`setting-${setting}`)
+    const settingValue = settingInput.checked
+
+    localStorage.setItem(setting, settingValue)
   }
 }
