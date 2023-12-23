@@ -34,7 +34,7 @@ window.onload = () => {
         <div class="form" id="form-guess-${i}">
           <h3 class="hint" id="hint-${i}">Hint #${i}: ${rhyme}</h3>
           <input type="text" oninput="submitGuess(${i})" id="guess-${i}" />
-          <span id="status-${i}"></span>
+          <span class="guess-status" id="status-${i}"></span>
         </div>
       `
       guessContainer.insertAdjacentHTML('beforeend', guessHTML);
@@ -62,17 +62,11 @@ window.onload = () => {
   }
 
   guessIsCorrect = (guess, guessNumber) => {
-    let answer = ''
-    switch (guessNumber) {
-      case 1:
-        answer = 'table heist'
-        break
-      case 2:
-        answer = 'cable splice'
-        break
-      default:
-        break
-    }
+    const currentClueValue = document.getElementById('clue').textContent
+    const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
+      return !!p.clue[currentClueValue]
+    })
+    const answer = currentPuzzle.rhymes[Array.from(Object.keys(currentPuzzle.rhymes))[guessNumber - 1]]
 
     const cleanedGuess = guess.replace(/ /, '').toLocaleLowerCase()
     const cleanedAnswer = answer.replace(/ /, '').toLocaleLowerCase()
@@ -106,7 +100,8 @@ window.onload = () => {
 
     const statusElement = document.getElementById(`status-${guessNumber}`)
     statusElement.textContent = statusText
-    statusElement.classList = statusClass
+    statusElement.classList.remove('correct', 'incorrect')
+    statusElement.classList.add(statusClass)
   }
 
   toggleSettings = (setting) => {
