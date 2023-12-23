@@ -33,18 +33,53 @@ window.onload = () => {
       const guessHTML = `
         <div class="form" id="form-guess-${i}">
           <h3 class="hint" id="hint-${i}">Hint #${i}: ${rhyme}</h3>
-          <input type="text" oninput="submitGuess(${i})" id="guess-${i}" />
+          <input type="text" class="guess" oninput="submitGuess(${i})" id="guess-${i}" />
           <span class="guess-status" id="status-${i}"></span>
         </div>
       `
       guessContainer.insertAdjacentHTML('beforeend', guessHTML);
     })
+
+    splitHints = (shouldSplit) => {
+      const guessElements = [...document.getElementsByClassName('guess')]
+      const guessesAreEmpty = guessElements.every(a => {
+        return !a.value
+      })
+      if (guessesAreEmpty || confirm(`${shouldSplit ? 'Splitting' : 'Combining'} hints will clear current guesses.`)) {
+        guessElements.forEach(element => {
+          element.value = ''
+          element.dispatchEvent(new Event('input')) // manually trigger change event to clear guess status
+        })
+      } else {
+        const settingInput = document.getElementById(`setting-split-hints`)
+        settingInput.checked = !shouldSplit
+        localStorage.setItem('split-hints', !shouldSplit)
+      }
+    }
+
+    // custom local storage set item that adds an onchange event
+    localStorageSetItem = (key, value) => {
+      localStorage.setItem(key, value)
+
+      const event = new Event('localStorageSetItemCustom')
+      event.key = key
+      event.value = value
+      document.dispatchEvent(event)
+    }
+
+    localStorageSetItemHandler = (e) => {
+      switch (e.key) {
+        case 'split-hints':
+          splitHints(e.value)
+          break
+        default:
+          break
+      }
+    }
+
+    document.addEventListener('localStorageSetItemCustom', localStorageSetItemHandler)
   }
   setup()
-
-  window.addEventListener('storage', (e) => {
-    console.log(e)
-  });
   
   submitGuess = (guessNumber) => {
     const guessInput = document.getElementById(`guess-${guessNumber}`)
@@ -78,7 +113,7 @@ window.onload = () => {
       }
     }
 
-    return numLettersCorrect > cleanedAnswer.length * 0.8
+    return numLettersCorrect >= cleanedAnswer.length * 1.0 // lower this number to give more leeway for misspellings
   }
 
   setStatus = (guessNumber, status) => {
@@ -101,13 +136,13 @@ window.onload = () => {
     const statusElement = document.getElementById(`status-${guessNumber}`)
     statusElement.textContent = statusText
     statusElement.classList.remove('correct', 'incorrect')
-    statusElement.classList.add(statusClass)
+    !!statusClass && statusElement.classList.add(statusClass)
   }
 
   toggleSettings = (setting) => {
     const settingInput = document.getElementById(`setting-${setting}`)
     const settingValue = settingInput.checked
 
-    localStorage.setItem(setting, settingValue)
+    localStorageSetItem(setting, settingValue)
   }
 }
