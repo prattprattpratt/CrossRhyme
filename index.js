@@ -18,7 +18,7 @@ window.onload = () => {
         rhymes: {
           'Captured chess piece': 'took rook',
           'Criminal in a small space': 'crook nook',
-          'What Peter Pan says to get his rival’s attention': 'look hook',
+          'What Peter Pan says to get his rival\'s attention': 'look hook',
         }
       },
     ]
@@ -29,12 +29,20 @@ window.onload = () => {
     document.getElementById('clue').textContent = Object.keys(firstPuzzle.clue)[0]
     Array.from(Object.keys(firstPuzzle.rhymes)).forEach((rhyme, i) => {
       i = i + 1
+      console.log(firstPuzzle.rhymes[rhyme].split(' '))
       const guessContainer = document.getElementById('guess-container');
       const guessHTML = `
         <div class="form" id="form-guess-${i}">
           <h3 class="hint" id="hint-${i}">Hint #${i}: ${rhyme}</h3>
-          <input type="text" class="guess" oninput="submitGuess(${i})" id="guess-${i}" />
+          <input type="text" class="guess guess-whole" oninput="submitGuess(${i})" id="guess-${i}" data-answer="${firstPuzzle.rhymes[rhyme]}" />
           <span class="guess-status" id="status-${i}"></span>
+          ${firstPuzzle.rhymes[rhyme].split(' ').map((word, j) => {
+            j = j + 1
+            return `
+              <input type="text" class="guess guess-part hidden" oninput="submitGuess(${i},${j})" id="guess-${i}-part-${j}" data-answer="${word}" />
+              <span class="guess-status" id="status-${i}-${j}"></span>
+            `
+          }).join('')}
         </div>
       `
       guessContainer.insertAdjacentHTML('beforeend', guessHTML);
@@ -49,6 +57,8 @@ window.onload = () => {
         guessElements.forEach(element => {
           element.value = ''
           element.dispatchEvent(new Event('input')) // manually trigger change event to clear guess status
+
+          element.classList.toggle('hidden')
         })
         localStorage.setItem('split-hints', shouldSplit)
       } else {
@@ -82,27 +92,32 @@ window.onload = () => {
   }
   setup()
   
-  submitGuess = (guessNumber) => {
-    const guessInput = document.getElementById(`guess-${guessNumber}`)
+  submitGuess = (guessNumber, nthWord) => {
+    const guessElementId = nthWord ? `guess-${guessNumber}-part-${nthWord}` : `guess-${guessNumber}`
+    const guessInput = document.getElementById(guessElementId)
     const guess = guessInput.value
 
     if (guess === '') {
-      setStatus(guessNumber, 'blank')
+      setStatus(guessNumber, nthWord, 'blank')
       return
     }
     
     setStatus(
-      guessNumber, 
-      guessIsCorrect(guess, guessNumber) ? 'correct' : 'incorrect'
+      guessNumber,
+      nthWord,
+      guessIsCorrect(guess, guessNumber, nthWord) ? 'correct' : 'incorrect'
     )
   }
 
-  guessIsCorrect = (guess, guessNumber) => {
+  guessIsCorrect = (guess, guessNumber, nthWord) => {
     const currentClueValue = document.getElementById('clue').textContent
     const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
       return !!p.clue[currentClueValue]
     })
-    const answer = currentPuzzle.rhymes[Array.from(Object.keys(currentPuzzle.rhymes))[guessNumber - 1]]
+    let answer = currentPuzzle.rhymes[Array.from(Object.keys(currentPuzzle.rhymes))[guessNumber - 1]]
+    if (nthWord) {
+      answer = answer.split(' ')[nthWord - 1]
+    }
 
     const cleanedGuess = guess.replace(/ /, '').toLocaleLowerCase()
     const cleanedAnswer = answer.replace(/ /, '').toLocaleLowerCase()
@@ -114,10 +129,10 @@ window.onload = () => {
       }
     }
 
-    return numLettersCorrect >= cleanedAnswer.length * 1.0 // lower this number to give more leeway for misspellings
+    return numLettersCorrect >= cleanedAnswer.length * 1.0 // lower this number to give more leeway for misspellings. TODO: smarter way to do this.
   }
 
-  setStatus = (guessNumber, status) => {
+  setStatus = (guessNumber, partNumber, status) => {
     let statusText = ''
     let statusClass = ''
 
@@ -134,7 +149,8 @@ window.onload = () => {
         break
     }
 
-    const statusElement = document.getElementById(`status-${guessNumber}`)
+    const statusElementId = partNumber ? `status-${guessNumber}-${partNumber}` : `status-${guessNumber}`
+    const statusElement = document.getElementById(statusElementId)
     statusElement.textContent = statusText
     statusElement.classList.remove('correct', 'incorrect')
     !!statusClass && statusElement.classList.add(statusClass)

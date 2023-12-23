@@ -25,12 +25,6 @@ h3, input, span, button {
   content: 'Clue: ';
 }
 
-span {
-  position: absolute;
-  right: 0;
-  top: 22px;
-}
-
 .form {
   position: relative;
   display: flex;
@@ -41,6 +35,18 @@ span {
 
 input[type=text] {
   margin: 0 -1px 0 16px;
+}
+
+.guess-part {
+  width: 120px;
+}
+
+:nth-child(1 of .guess-part) {
+  margin-left: auto;
+}
+
+.guess.hidden {
+  display: none;
 }
 
 .guess-status {
