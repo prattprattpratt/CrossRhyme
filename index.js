@@ -50,16 +50,17 @@ window.onload = () => {
           element.value = ''
           element.dispatchEvent(new Event('input')) // manually trigger change event to clear guess status
         })
+        localStorage.setItem('split-hints', shouldSplit)
       } else {
         const settingInput = document.getElementById(`setting-split-hints`)
         settingInput.checked = !shouldSplit
-        localStorage.setItem('split-hints', !shouldSplit)
       }
     }
 
-    // custom local storage set item that adds an onchange event
-    localStorageSetItem = (key, value) => {
-      localStorage.setItem(key, value)
+    // custom local storage setItem that adds an onchange event listener
+    localStorageSetItem = (key, value, options) => {
+      const { conditionallyUpdateLocalStorage } = options
+      !conditionallyUpdateLocalStorage && localStorage.setItem(key, value)
 
       const event = new Event('localStorageSetItemCustom')
       event.key = key
@@ -139,10 +140,10 @@ window.onload = () => {
     !!statusClass && statusElement.classList.add(statusClass)
   }
 
-  toggleSettings = (setting) => {
-    const settingInput = document.getElementById(`setting-${setting}`)
+  toggleSettings = (settingName) => {
+    const settingInput = document.getElementById(`setting-${settingName}`)
     const settingValue = settingInput.checked
 
-    localStorageSetItem(setting, settingValue)
+    localStorageSetItem(settingName, settingValue, { conditionallyUpdateLocalStorage: true })
   }
 }
