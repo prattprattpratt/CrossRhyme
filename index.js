@@ -34,13 +34,17 @@ window.onload = () => {
       const guessHTML = `
         <div class="form" id="form-guess-${i}">
           <h3 class="hint" id="hint-${i}">Hint #${i}: ${rhyme}</h3>
-          <input type="text" class="guess guess-whole" oninput="submitGuess(${i})" id="guess-${i}" data-answer="${firstPuzzle.rhymes[rhyme]}" />
-          <span class="guess-status" id="status-${i}"></span>
+          <div class="guess-with-status">
+            <input type="text" class="guess guess-whole" oninput="submitGuess(${i})" id="guess-${i}" data-answer="${firstPuzzle.rhymes[rhyme]}" />
+            <span class="guess-status" id="status-${i}"></span>
+          </div>
           ${firstPuzzle.rhymes[rhyme].split(' ').map((word, j) => {
             j = j + 1
             return `
-              <input type="text" class="guess guess-part hidden" oninput="submitGuess(${i},${j})" id="guess-${i}-part-${j}" data-answer="${word}" />
-              <span class="guess-status" id="status-${i}-${j}"></span>
+              <div class="guess-with-status hidden">
+                <input type="text" class="guess guess-part" oninput="submitGuess(${i},${j})" id="guess-${i}-part-${j}" data-answer="${word}" />
+                <span class="guess-status" id="status-${i}-${j}"></span>
+              </div>
             `
           }).join('')}
         </div>
@@ -50,6 +54,7 @@ window.onload = () => {
 
     splitHints = (shouldSplit) => {
       const guessElements = [...document.getElementsByClassName('guess')]
+      const guessWithStatusElements = [...document.getElementsByClassName('guess-with-status')]
       const guessesAreEmpty = guessElements.every(a => {
         return !a.value
       })
@@ -57,7 +62,8 @@ window.onload = () => {
         guessElements.forEach(element => {
           element.value = ''
           element.dispatchEvent(new Event('input')) // manually trigger change event to clear guess status
-
+        })
+        guessWithStatusElements.forEach(element => {
           element.classList.toggle('hidden')
         })
         localStorage.setItem('split-hints', shouldSplit)
@@ -138,11 +144,11 @@ window.onload = () => {
 
     switch (status) {
       case 'correct':
-        statusText = 'Correct!'
+        statusText = '✅'
         statusClass = 'correct'
         break
       case 'incorrect':
-        statusText = 'Incorrect.'
+        statusText = '❌'
         statusClass = 'incorrect'
         break
       default:

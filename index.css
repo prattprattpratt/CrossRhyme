@@ -41,18 +41,22 @@ input[type=text] {
   width: 120px;
 }
 
-:nth-child(1 of .guess-part) {
+:nth-child(2 of .guess-with-status) {
   margin-left: auto;
 }
 
-.guess.hidden {
+.guess-with-status {
+  position: relative;
+}
+
+.guess-with-status.hidden {
   display: none;
 }
 
 .guess-status {
   position: absolute;
-  left: 100%;
-  margin-left: 10px;
+  right: 6px;
+  top: 3px;
 }
 
 .correct {
