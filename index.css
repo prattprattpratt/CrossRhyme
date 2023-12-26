@@ -77,6 +77,10 @@ input[type=text] {
   font-size: 35px;
 }
 
+#puzzle-status {
+  color: #2bb605;
+}
+
 .settings-container {
   display: flex;
   column-gap: 10px;

@@ -67,6 +67,14 @@ window.onload = () => {
     statusElement.textContent = statusText
     statusElement.classList.remove('correct', 'incorrect')
     !!statusClass && statusElement.classList.add(statusClass)
+
+    const guessStatusElements = document.querySelectorAll('#rhyme-guess-container .guess-with-status:not(.hidden) .guess-status')
+    const puzzleComplete = Array.from(guessStatusElements).every(e => {
+      return e.classList.contains('correct')
+    })
+    if (puzzleComplete) {
+      puzzleCompleted()
+    }
   }
 
   revealClue = () => {
@@ -113,5 +121,19 @@ window.onload = () => {
       const guessClueSettingContainer = document.getElementById('setting-guess-clue-container')
       guessClueSettingContainer.classList.add('disabled')
     }
+  }
+
+  puzzleCompleted = () => {
+    const puzzleStatus = document.getElementById('puzzle-status')
+    puzzleStatus.textContent = 'Well done!'
+
+    //stop the timer
+    window.clearInterval(puzzleStatus.getAttribute('timerId'))
+
+    // disable the guess inputs
+    const guessElements = [...document.getElementsByClassName('guess')]
+    guessElements.forEach(elem => {
+      elem.disabled = 'true'
+    })
   }
 }

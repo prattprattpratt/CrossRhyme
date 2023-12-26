@@ -49,7 +49,7 @@ pageSetup = () => {
 
   Array.from(Object.keys(firstPuzzle.rhymes)).forEach((rhyme, i) => {
     i = i + 1
-    const guessContainer = document.getElementById('guess-container')
+    const guessContainer = document.getElementById('rhyme-guess-container')
     const guessHTML = `
       <div class="form" id="form-guess-${i}">
         <h3 class="hint" id="hint-${i}">Rhyme #${i}: ${rhyme}</h3>
@@ -87,4 +87,6 @@ pageSetup = () => {
       timerContainer.textContent = 'Elapsed time: ' + minutesElapsed.toString() + 'm ' + secondsRemainder.toString() + 's'
     }
   }, 1)
+  const puzzleStatus = document.getElementById('puzzle-status')
+  puzzleStatus.setAttribute('timerId', timer)
 }
