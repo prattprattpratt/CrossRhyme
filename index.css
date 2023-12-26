@@ -41,12 +41,12 @@ input[type=text] {
   width: 120px;
 }
 
-:nth-child(2 of .guess-with-status) {
-  margin-left: auto;
-}
-
 .guess-with-status {
   position: relative;
+}
+
+.guess-with-status.ml-auto {
+  margin-left: auto;
 }
 
 .guess-with-status.hidden {
@@ -67,8 +67,23 @@ input[type=text] {
   color: red;
 }
 
-.settings {
+.settings-container {
   display: flex;
+  column-gap: 10px;
   position: absolute;
   bottom: 0;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.clue-guess {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: -20px;
 }

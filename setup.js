@@ -2,7 +2,7 @@ pageSetup = () => {
   const puzzleData = [
     {
       clue: {
-        'Austrian National Flower': 'eidelweiss',
+        'Austrian National Flower': 'edelweiss',
       },
       rhymes: {
         'Furniture store robbery': 'table heist',
@@ -24,26 +24,48 @@ pageSetup = () => {
 
   const firstPuzzle = puzzleData[Math.floor((Math.random() * puzzleData.length))]
 
-  document.getElementById('clue').textContent = Object.keys(firstPuzzle.clue)[0]
+  const clueHint = Object.keys(firstPuzzle.clue)[0]
+  document.getElementById('clue').textContent = clueHint
+
+  const clue = firstPuzzle.clue[clueHint]
+  const clueGuessContainer = document.getElementById('clue-guess')
+  const clueGuessHTML = `
+    <p>Guess clue:</p>
+    <div class="guess-with-status combined">
+      <input type="text" oninput="submitGuess('clue')" id="guess-clue" />
+      <span class="guess-status" id="status-clue"></span>
+    </div>
+    ${clue.split(' ').length > 1 ? clue.split(' ').map((_, j) => {
+      j = j + 1
+      return `
+        <div class="guess-with-status split hidden">
+          <input type="text" class="guess guess-part" oninput="submitGuess('clue',${undefined},${j})" id="guess-clue-part-${j}" />
+          <span class="guess-status" id="status-clue-${j}"></span>
+        </div>
+      `
+    }).join('') : ''}
+  `
+  clueGuessContainer.insertAdjacentHTML('beforeend', clueGuessHTML)
+
   Array.from(Object.keys(firstPuzzle.rhymes)).forEach((rhyme, i) => {
     i = i + 1
     const guessContainer = document.getElementById('guess-container')
     const guessHTML = `
       <div class="form" id="form-guess-${i}">
-        <h3 class="hint" id="hint-${i}">Hint #${i}: ${rhyme}</h3>
-        <div class="guess-with-status">
-          <input type="text" class="guess guess-whole" oninput="submitGuess(${i})" id="guess-${i}" />
+        <h3 class="hint" id="hint-${i}">Rhyme #${i}: ${rhyme}</h3>
+        <div class="guess-with-status combined">
+          <input type="text" class="guess guess-whole" oninput="submitGuess('rhyme',${i})" id="guess-${i}" />
           <span class="guess-status" id="status-${i}"></span>
         </div>
-        ${firstPuzzle.rhymes[rhyme].split(' ').map((word, j) => {
+        ${firstPuzzle.rhymes[rhyme].split(' ').length > 1 ? firstPuzzle.rhymes[rhyme].split(' ').map((_, j) => {
           j = j + 1
           return `
-            <div class="guess-with-status hidden">
-              <input type="text" class="guess guess-part" oninput="submitGuess(${i},${j})" id="guess-${i}-part-${j}" />
+            <div class="guess-with-status split hidden${j === 1 ? ' ml-auto' : ''}">
+              <input type="text" class="guess guess-part" oninput="submitGuess('rhyme',${i},${j})" id="guess-${i}-part-${j}" />
               <span class="guess-status" id="status-${i}-${j}"></span>
             </div>
           `
-        }).join('')}
+        }).join('') : ''}
       </div>
     `
     guessContainer.insertAdjacentHTML('beforeend', guessHTML)

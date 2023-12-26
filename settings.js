@@ -11,13 +11,19 @@ settingsSetup = () => {
         element.dispatchEvent(new Event('input')) // manually trigger change event to clear guess status
       })
       guessWithStatusElements.forEach(element => {
-        element.classList.toggle('hidden')
+        if (element.classList.contains('combined') || element.classList.contains('split')) {
+          element.classList.toggle('hidden')
+        }
       })
       localStorage.setItem('split-hints', shouldSplit)
     } else {
       const settingInput = document.getElementById(`setting-split-hints`)
       settingInput.checked = !shouldSplit
     }
+  }
+
+  toggleGuessClue = () => {
+    document.getElementById('clue-guess').classList.toggle('hidden')
   }
 
   // custom local storage setItem that adds an onchange event listener
@@ -35,6 +41,9 @@ settingsSetup = () => {
     switch (e.key) {
       case 'split-hints':
         toggleSplitHints(e.value)
+        break
+      case 'guess-clue':
+        toggleGuessClue(e.value)
         break
       default:
         break

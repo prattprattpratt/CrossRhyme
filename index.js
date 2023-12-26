@@ -2,29 +2,32 @@ window.onload = () => {
   pageSetup()
   settingsSetup()
   
-  submitGuess = (guessNumber, nthWord) => {
-    const guessElementId = nthWord ? `guess-${guessNumber}-part-${nthWord}` : `guess-${guessNumber}`
+  submitGuess = (guessType, rhymeNumber, nthWord) => {
+    const guessElementId = nthWord ? `guess-${rhymeNumber || guessType}-part-${nthWord}` : `guess-${rhymeNumber || guessType}`
     const guessInput = document.getElementById(guessElementId)
     const guess = guessInput.value
 
     if (guess === '') {
-      setStatus(guessNumber, nthWord, 'blank')
+      setStatus(guessType, rhymeNumber, nthWord, 'blank')
       return
     }
     
     setStatus(
-      guessNumber,
+      guessType,
+      rhymeNumber,
       nthWord,
-      guessIsCorrect(guess, guessNumber, nthWord) ? 'correct' : 'incorrect'
+      guessIsCorrect(guessType, guess, rhymeNumber, nthWord) ? 'correct' : 'incorrect'
     )
   }
 
-  guessIsCorrect = (guess, guessNumber, nthWord) => {
+  guessIsCorrect = (guessType, guess, rhymeNumber, nthWord) => {
     const currentClueValue = document.getElementById('clue').textContent
     const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
       return !!p.clue[currentClueValue]
     })
-    let answer = currentPuzzle.rhymes[Array.from(Object.keys(currentPuzzle.rhymes))[guessNumber - 1]]
+    let answer = guessType === 'rhyme' ?
+      currentPuzzle.rhymes[Array.from(Object.keys(currentPuzzle.rhymes))[rhymeNumber - 1]]
+      : currentPuzzle.clue[currentClueValue]
     if (nthWord) {
       answer = answer.split(' ')[nthWord - 1]
     }
@@ -42,7 +45,7 @@ window.onload = () => {
     return numLettersCorrect >= cleanedAnswer.length * 1.0 // lower this number to give more leeway for misspellings. TODO: smarter way to do this.
   }
 
-  setStatus = (guessNumber, partNumber, status) => {
+  setStatus = (guessType, rhymeNumber, nthWord, status) => {
     let statusText = ''
     let statusClass = ''
 
@@ -59,7 +62,7 @@ window.onload = () => {
         break
     }
 
-    const statusElementId = partNumber ? `status-${guessNumber}-${partNumber}` : `status-${guessNumber}`
+    const statusElementId = nthWord ? `status-${rhymeNumber || guessType}-${nthWord}` : `status-${rhymeNumber || guessType}`
     const statusElement = document.getElementById(statusElementId)
     statusElement.textContent = statusText
     statusElement.classList.remove('correct', 'incorrect')
