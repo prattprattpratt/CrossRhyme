@@ -28,10 +28,10 @@ pageSetup = () => {
   document.getElementById('clue').textContent = clueHint
 
   const clue = firstPuzzle.clue[clueHint]
-  const clueGuessContainer = document.getElementById('clue-guess')
+  const clueGuessContainer = document.getElementById('clue-guess-container')
   const clueGuessHTML = `
     <p>Guess clue:</p>
-    <div class="guess-with-status combined">
+    <div class="guess-with-status${clue.split(' ').length > 1 ? ' combined' : ''}">
       <input type="text" oninput="submitGuess('clue')" id="guess-clue" />
       <span class="guess-status" id="status-clue"></span>
     </div>

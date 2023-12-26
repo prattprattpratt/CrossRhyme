@@ -23,7 +23,11 @@ settingsSetup = () => {
   }
 
   toggleGuessClue = () => {
-    document.getElementById('clue-guess').classList.toggle('hidden')
+    document.getElementById('clue-guess-container').classList.toggle('hidden')
+  }
+  
+  toggleRevealClueOption = () => {
+    document.getElementById('reveal-clue-button').classList.toggle('hidden')
   }
 
   // custom local storage setItem that adds an onchange event listener
@@ -43,7 +47,10 @@ settingsSetup = () => {
         toggleSplitHints(e.value)
         break
       case 'guess-clue':
-        toggleGuessClue(e.value)
+        toggleGuessClue()
+        break
+      case 'reveal-clue':
+        toggleRevealClueOption(e.value)
         break
       default:
         break

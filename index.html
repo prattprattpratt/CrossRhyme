@@ -17,9 +17,10 @@
   <body>
     <h1>Rhyme Words</h1>
     <h2 id="clue"></h2>
-    <div class="clue-guess guess-with-status hidden" id="clue-guess">
+    <div class="clue-guess-container guess-with-status hidden" id="clue-guess-container">
       <!-- clue guess inputs get added here from puzzle data in local storage -->
     </div>
+    <button onclick="revealClue()" class="hidden" id="reveal-clue-button">Click to reveal clue</button>
     <div id="guess-container">
       <!-- guesses get added here from puzzle data in local storage -->
     </div>
@@ -29,9 +30,13 @@
         <p>Split hints by word</p>
         <input type="checkbox" oninput="toggleSettings('split-hints')" id="setting-split-hints" />
       </div>
-      <div class="setting">
+      <div class="setting" id="setting-guess-clue-container">
         <p>Allow clue guesses</p>
         <input type="checkbox" oninput="toggleSettings('guess-clue')" id="setting-guess-clue" />
+      </div>
+      <div class="setting" id="setting-reveal-clue-container">
+        <p>Allow clue reveal</p>
+        <input type="checkbox" oninput="toggleSettings('reveal-clue')" id="setting-reveal-clue" />
       </div>
     </div>
   </body>

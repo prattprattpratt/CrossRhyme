@@ -49,10 +49,6 @@ input[type=text] {
   margin-left: auto;
 }
 
-.guess-with-status.hidden {
-  display: none;
-}
-
 .guess-status {
   position: absolute;
   right: 6px;
@@ -80,10 +76,19 @@ input[type=text] {
   column-gap: 4px;
 }
 
-.clue-guess {
+.setting.disabled {
+  text-decoration: line-through;
+  pointer-events: none;
+}
+
+.clue-guess-container {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
   margin-top: -20px;
+}
+
+.hidden {
+  display: none;
 }

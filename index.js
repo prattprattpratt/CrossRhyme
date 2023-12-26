@@ -21,13 +21,13 @@ window.onload = () => {
   }
 
   guessIsCorrect = (guessType, guess, rhymeNumber, nthWord) => {
-    const currentClueValue = document.getElementById('clue').textContent
+    const currentClueHint = document.getElementById('clue').textContent
     const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
-      return !!p.clue[currentClueValue]
+      return !!p.clue[currentClueHint]
     })
     let answer = guessType === 'rhyme' ?
       currentPuzzle.rhymes[Array.from(Object.keys(currentPuzzle.rhymes))[rhymeNumber - 1]]
-      : currentPuzzle.clue[currentClueValue]
+      : currentPuzzle.clue[currentClueHint]
     if (nthWord) {
       answer = answer.split(' ')[nthWord - 1]
     }
@@ -67,5 +67,51 @@ window.onload = () => {
     statusElement.textContent = statusText
     statusElement.classList.remove('correct', 'incorrect')
     !!statusClass && statusElement.classList.add(statusClass)
+  }
+
+  revealClue = () => {
+    if (confirm('Are you sure you want to reveal the clue?')) {
+      // get the clue
+      const currentClueHint = document.getElementById('clue').textContent
+      const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
+        return !!p.clue[currentClueHint]
+      })
+      const currentClue = currentPuzzle.clue[currentClueHint]
+      // set the clue value, don't allow changes to the clue input value
+      const clueGuessElement = document.getElementById('guess-clue')
+      clueGuessElement.value = currentClue
+      clueGuessElement.disabled = 'true'
+
+      // make sure the clue guess container is showing
+      const clueGuessContainer = document.getElementById('clue-guess-container')
+      clueGuessContainer.classList.remove('hidden')
+
+      // make sure the current clue guess status is blank
+      const clueGuessStatusElement = document.getElementById('status-clue')
+      clueGuessStatusElement.textContent = ''
+
+      // make sure the single clue input is showing
+      const guessWithStatusElements = [...document.querySelectorAll('.clue-guess-container .guess-with-status')]
+      guessWithStatusElements.forEach(element => {
+        if (element.classList.contains('split')) {
+          element.classList.add('hidden')
+          console.log(element.firstElementChild)
+          element.firstElementChild.value = ''
+        } else {
+          element.classList.remove('hidden')
+        }
+        // disable combined/split toggle-ability
+        element.classList.remove('combined', 'split')
+      })
+
+      // hide the button
+      toggleRevealClueOption()
+
+      // disable the clue-related settings that are no longer relevant
+      const revealClueSettingContainer = document.getElementById('setting-reveal-clue-container')
+      revealClueSettingContainer.classList.add('disabled')
+      const guessClueSettingContainer = document.getElementById('setting-guess-clue-container')
+      guessClueSettingContainer.classList.add('disabled')
+    }
   }
 }
