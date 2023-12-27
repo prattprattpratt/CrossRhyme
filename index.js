@@ -1,6 +1,7 @@
 window.onload = () => {
   pageSetup()
   settingsSetup()
+  setActivePuzzle(0)
   
   submitGuess = (guessType, rhymeNumber, nthWord) => {
     const guessElementId = nthWord ? `guess-${rhymeNumber || guessType}-part-${nthWord}` : `guess-${rhymeNumber || guessType}`
@@ -11,7 +12,7 @@ window.onload = () => {
       setStatus(guessType, rhymeNumber, nthWord, 'blank')
       return
     }
-    
+
     setStatus(
       guessType,
       rhymeNumber,
@@ -144,18 +145,29 @@ window.onload = () => {
     puzzleStatus.setAttribute('timerId', timer)
   }
 
+  stopTimer = () => {
+    const puzzleStatus = document.getElementById('puzzle-status')
+    window.clearInterval(puzzleStatus.getAttribute('timerId'))
+  }
+
   startPuzzle = () => {
     startTimer()
     const preStartBarrier = document.getElementById('pre-start-barrier')
     preStartBarrier.classList.add('hidden')
   }
 
+  nextPuzzle = () => {
+    const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
+    const currentPuzzleIndex = JSON.parse(localStorage.getItem('puzzle-data')).findIndex(p => {
+      return !!p.clue[currentClueHint]
+    })
+    setActivePuzzle(currentPuzzleIndex + 1)
+  }
+
   puzzleCompleted = () => {
+    stopTimer()
     const puzzleStatus = document.getElementById('puzzle-status')
     puzzleStatus.textContent = 'Well done!'
-
-    //stop the timer
-    window.clearInterval(puzzleStatus.getAttribute('timerId'))
 
     // disable the guess inputs
     const guessElements = [...document.getElementsByClassName('guess')]
@@ -164,7 +176,6 @@ window.onload = () => {
     })
   }
 
-  // TODO: ONE-WORD RHYME
   // TODO: NEXT PUZZLE
   // TODO: STATS (FASTEST PUZZLE, AVERAGE TIME)
   // TODO: SETTINGS MODAL
@@ -172,4 +183,5 @@ window.onload = () => {
   // TODO: LOOK GOOD
   // TODO: SHARE RESULTS
   // TODO: PUZZLES FROM SHEET/OTHER JOE-EDITABLE DATA SOURCE
+  // TODO: REORGANIZE CODE AGAIN (abstract get current puzzle, more intuitive file structure)
 }
