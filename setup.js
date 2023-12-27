@@ -83,15 +83,16 @@ pageSetup = () => {
 
   Array.from(Object.keys(firstPuzzle.rhymes)).forEach((rhyme, i) => {
     i = i + 1
+    const answer = firstPuzzle.rhymes[rhyme]
     const guessContainer = document.getElementById('rhyme-guess-container')
     const guessHTML = `
       <div class="form" id="form-guess-${i}">
         <h3 class="hint" id="hint-${i}">Rhyme #${i}: ${rhyme}</h3>
-        <div class="guess-with-status combined">
+        <div class="guess-with-status${answer.split(' ').length > 1 ? ' combined' : ''}">
           <input type="text" class="guess guess-whole" oninput="submitGuess('rhyme',${i})" id="guess-${i}" />
           <span class="guess-status" id="status-${i}"></span>
         </div>
-        ${firstPuzzle.rhymes[rhyme].split(' ').length > 1 ? firstPuzzle.rhymes[rhyme].split(' ').map((_, j) => {
+        ${answer.split(' ').length > 1 ? answer.split(' ').map((_, j) => {
           j = j + 1
           return `
             <div class="guess-with-status split hidden${j === 1 ? ' ml-auto' : ''}">
