@@ -123,6 +123,33 @@ window.onload = () => {
     }
   }
 
+  startTimer = () => {
+    const startTime = Date.now()
+    const timerContainer = document.getElementById('timer-container')
+    const timer = window.setInterval(() => {
+      let msElapsed = Date.now() - startTime
+      const minutesElapsed = Math.floor(msElapsed / 60_000)
+      const secondsElapsed = Math.floor(msElapsed / 1000)
+      const secondsRemainder = Math.floor(msElapsed % 60_000 / 1000)
+      const msRemainder = msElapsed % 1000
+      if (secondsElapsed < 10) {
+        timerContainer.textContent = 'Elapsed time: ' + secondsElapsed.toString() + '.' + msRemainder.toString().padEnd(3, '0') + 's'
+      } else if (secondsElapsed < 60) {
+        timerContainer.textContent = 'Elapsed time: ' + secondsElapsed.toString() + 's'
+      } else {
+        timerContainer.textContent = 'Elapsed time: ' + minutesElapsed.toString() + 'm ' + secondsRemainder.toString() + 's'
+      }
+    }, 1)
+    const puzzleStatus = document.getElementById('puzzle-status')
+    puzzleStatus.setAttribute('timerId', timer)
+  }
+
+  startPuzzle = () => {
+    startTimer()
+    const preStartBarrier = document.getElementById('pre-start-barrier')
+    preStartBarrier.classList.add('hidden')
+  }
+
   puzzleCompleted = () => {
     const puzzleStatus = document.getElementById('puzzle-status')
     puzzleStatus.textContent = 'Well done!'
@@ -136,4 +163,13 @@ window.onload = () => {
       elem.disabled = 'true'
     })
   }
+
+  // TODO: SHARE RESULTS
+  // TODO: MORE PUZZLES
+  // TODO: ONE-WORD RHYME
+  // TODO: NEXT PUZZLE
+  // TODO: STATS (FASTEST PUZZLE, AVERAGE TIME)
+  // TODO: SETTINGS MODAL
+  // TODO: TUTORIAL (GIF?, POPUP WALKTHROUGH?)
+  // TODO: LOOK GOOD
 }

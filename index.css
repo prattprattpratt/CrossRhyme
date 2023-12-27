@@ -30,10 +30,6 @@ h3, input, span, button {
   font-size: 22px;
 }
 
-#clue::before {
-  content: 'Clue: ';
-}
-
 .form {
   position: relative;
   display: flex;
@@ -79,6 +75,22 @@ input[type=text] {
 
 #puzzle-status {
   color: #2bb605;
+}
+
+.pre-start-barrier {
+  position: absolute;
+  top: 250px;
+  height: 400px;
+  left: calc(50% - 350px);
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(9px);
+}
+
+.pre-start-barrier.hidden {
+  display: none;
 }
 
 .settings-container {
