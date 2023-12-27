@@ -7,6 +7,7 @@ pageSetup = () => {
       rhymes: {
         'Furniture store robbery': 'table heist',
         'Cutting a wire in half': 'cable splice',
+        'Deadly herb': 'fatal spice',
       }
     },
     {
@@ -17,6 +18,36 @@ pageSetup = () => {
         'Captured chess piece': 'took rook',
         'Criminal in a small space': 'crook nook',
         'What Peter Pan says to get his rival\'s attention': 'look hook',
+      }
+    },
+    {
+      clue: {
+        'A Cluster of Steps': 'cook book',
+      },
+      rhymes: {
+        'Pepper spray for grizzlies': 'bear mace',
+        'An impartial contest': 'fair race',
+        'To occupy the same location as someone else': 'share space',
+      }
+    },
+    {
+      clue: {
+        'Rum-puh-pum-pum-er': 'drummer boy',
+      },
+      rhymes: {
+        'Less smart trick': 'dumber ploy',
+        'Gas-guzzler plaything': 'hummer toy',
+        'Pond fish that has been in the cold for longer': 'number koi',
+      }
+    },
+    {
+      clue: {
+        'Not Android': 'iPhone',
+      },
+      rhymes: {
+        'Propensity to get the same score as an opponent': 'tie prone',
+        'A place for the boys': 'guy zone',
+        'Questioning the rationale of lending': 'why loan',
       }
     },
   ]

@@ -21,7 +21,7 @@ window.onload = () => {
   }
 
   guessIsCorrect = (guessType, guess, rhymeNumber, nthWord) => {
-    const currentClueHint = document.getElementById('clue').textContent
+    const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
     const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
       return !!p.clue[currentClueHint]
     })
@@ -164,12 +164,12 @@ window.onload = () => {
     })
   }
 
-  // TODO: SHARE RESULTS
-  // TODO: MORE PUZZLES
   // TODO: ONE-WORD RHYME
   // TODO: NEXT PUZZLE
   // TODO: STATS (FASTEST PUZZLE, AVERAGE TIME)
   // TODO: SETTINGS MODAL
   // TODO: TUTORIAL (GIF?, POPUP WALKTHROUGH?)
   // TODO: LOOK GOOD
+  // TODO: SHARE RESULTS
+  // TODO: PUZZLES FROM SHEET/OTHER JOE-EDITABLE DATA SOURCE
 }
