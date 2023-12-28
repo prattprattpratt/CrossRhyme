@@ -164,6 +164,31 @@ window.onload = () => {
     setActivePuzzle(currentPuzzleIndex + 1)
   }
 
+  logPuzzleStats = () => {
+    const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
+    const currentPuzzleIndex = JSON.parse(localStorage.getItem('puzzle-data')).findIndex(p => {
+      return !!p.clue[currentClueHint]
+    })
+
+    const timerContainer = document.getElementById('timer-container')
+    const timeToComplete = timerContainer.textContent.split(': ')[1]
+
+    const currentPuzzleStats = {
+      index: currentPuzzleIndex,
+      clue: currentClueHint,
+      time: timeToComplete,
+    }
+
+    const allPuzzleStats = JSON.parse(localStorage.getItem('puzzle-stats')) || []
+    allPuzzleStats.forEach((ps, i) => {
+      if (ps.clue === currentClueHint) {
+        allPuzzleStats.splice(i, 1)
+      }
+    })
+    allPuzzleStats.push(currentPuzzleStats)
+    localStorage.setItem('puzzle-stats', JSON.stringify(allPuzzleStats))
+  }
+
   puzzleCompleted = () => {
     stopTimer()
     const puzzleStatus = document.getElementById('puzzle-status')
@@ -174,9 +199,10 @@ window.onload = () => {
     guessElements.forEach(elem => {
       elem.disabled = 'true'
     })
+
+    logPuzzleStats()
   }
 
-  // TODO: NEXT PUZZLE
   // TODO: STATS (FASTEST PUZZLE, AVERAGE TIME)
   // TODO: SETTINGS MODAL
   // TODO: TUTORIAL (GIF?, POPUP WALKTHROUGH?)
