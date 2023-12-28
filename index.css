@@ -97,6 +97,84 @@ input[type=text] {
   margin-left: 8px;
 }
 
+.open-stats-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.open-stats-modal-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.stats-modal.closed {
+  opacity: 0;
+  top: 20px;
+  pointer-events: none;
+}
+
+.stats-modal {
+  visibility: visible;
+  opacity: 1;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  color: black;
+  padding: 60px calc((100% - 400px) / 2) 0;
+  z-index: 1;
+  transition: top 0.5s, opacity 0.5s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .stats-modal {
+    background: #3b3b3b;
+    color: white;
+  }
+
+  path {
+    stroke: white;
+  }
+
+  .close-stats-modal path {
+    fill: white;
+  }
+}
+
+.close-stats-modal {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-name {
+  font-size: 22px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.stat-name, .stat-value {
+  margin: 12px 0;
+}
+
 .settings-container {
   display: flex;
   column-gap: 10px;
@@ -125,4 +203,8 @@ input[type=text] {
 
 .hidden {
   display: none;
+}
+
+input[type="checkbox"], button {
+  cursor: pointer;
 }

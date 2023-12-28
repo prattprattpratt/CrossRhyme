@@ -33,6 +33,30 @@
       <button class="next-button" onclick="nextPuzzle()">Next</button>
     </div>
 
+    <div class="open-stats-modal" id="open-stats-modal" onclick="toggleStatsModal('open')">
+      <svg class="open-stats-modal-icon" width="179px" height="173px" viewBox="0 0 179 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M116.928254,8.92901611 L116.927442,94.9280161 L116.898817,94.9290161 L116.898817,164.929016 L116.927442,164.928016 L116.927442,94.9280161 L170.918442,94.9290161 L170.918442,164.929016 L116.927442,164.928016 L116.928254,164.929016 L62.9380666,164.929016 L62.9380666,57.9290161 L62.9084418,57.9290161 L62.9086294,164.929016 L8.91844177,164.929016 L8.91844177,57.9290161 L62.9084418,57.9290161 L62.9086294,8.92901611 L116.928254,8.92901611 Z" stroke="#000000" stroke-width="16"></path>
+        </g>
+      </svg>
+    </div>
+    <div class="stats-modal closed" id="stats-modal">
+      <svg class="close-stats-modal" onclick="toggleStatsModal('close')" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" class="game-icon" data-testid="icon-close"><path fill="var(--color-tone-1)" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+      <h2>My stats</h2>
+      <div class="stat">
+        <p class="stat-name">Puzzles completed:</p>
+        <p class="stat-value" id="stat-value-num-completed"></p>
+      </div>
+      <div class="stat">
+        <p class="stat-name">Average puzzle completion time:</p>
+        <p class="stat-value" id="stat-value-avg-time"></p>
+      </div>
+      <div class="stat">
+        <p class="stat-name">Fastest puzzle completion time:</p>
+        <p class="stat-value" id="stat-value-min-time"></p>
+      </div>
+    </div>
+
     <div class="settings-container">
       <div class="setting">
         <p>Split hints by word</p>

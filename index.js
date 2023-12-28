@@ -204,6 +204,38 @@ window.onload = () => {
     logPuzzleStats()
   }
 
+  populateStats = () => {
+    const puzzleStats = JSON.parse(localStorage.getItem('puzzle-stats')) || []
+    const numPuzzlesCompleted = puzzleStats.length
+    let minTimeToComplete
+    let totalTimeToComplete = 0
+    puzzleStats.forEach(ps => {
+      const time = ps.secondsToComplete
+      if (!minTimeToComplete || time < minTimeToComplete) {
+        minTimeToComplete = time
+      }
+      totalTimeToComplete += time
+    }, 0)
+    const avgTimeToComplete = totalTimeToComplete / numPuzzlesCompleted
+
+    const numPuzzlesCompletedElement = document.getElementById('stat-value-num-completed')
+    const avgTimeElement = document.getElementById('stat-value-avg-time')
+    const minTimeElement = document.getElementById('stat-value-min-time')
+
+    numPuzzlesCompletedElement.textContent = numPuzzlesCompleted
+    avgTimeElement.textContent = !!avgTimeToComplete ? `${avgTimeToComplete.toFixed(3)}s` : 'N/A'
+    minTimeElement.textContent = !!minTimeToComplete ? `${minTimeToComplete}s` : 'N/A'
+  }
+
+  toggleStatsModal = (showOrHide) => {
+    const shouldShow = showOrHide === 'open'
+    const statsModal = document.getElementById('stats-modal')
+    shouldShow && statsModal.classList.remove('closed')
+    !shouldShow && statsModal.classList.add('closed')
+
+    populateStats()
+  }
+
   // TODO: STATS (FASTEST PUZZLE, AVERAGE TIME)
   // TODO: SETTINGS MODAL
   // TODO: TUTORIAL (GIF?, POPUP WALKTHROUGH?)
