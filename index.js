@@ -140,6 +140,7 @@ window.onload = () => {
       } else {
         timerContainer.textContent = 'Elapsed time: ' + minutesElapsed.toString() + 'm ' + secondsRemainder.toString() + 's'
       }
+      timerContainer.setAttribute('timeToComplete', secondsElapsed.toString() + '.' + msRemainder.toString().padEnd(3, '0'))
     }, 1)
     const puzzleStatus = document.getElementById('puzzle-status')
     puzzleStatus.setAttribute('timerId', timer)
@@ -171,12 +172,12 @@ window.onload = () => {
     })
 
     const timerContainer = document.getElementById('timer-container')
-    const timeToComplete = timerContainer.textContent.split(': ')[1]
+    const timeToComplete = Number(timerContainer.getAttribute('timeToComplete'))
 
     const currentPuzzleStats = {
       index: currentPuzzleIndex,
       clue: currentClueHint,
-      time: timeToComplete,
+      secondsToComplete: timeToComplete,
     }
 
     const allPuzzleStats = JSON.parse(localStorage.getItem('puzzle-stats')) || []
