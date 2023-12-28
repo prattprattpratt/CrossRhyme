@@ -33,43 +33,20 @@
       <button class="next-button" onclick="nextPuzzle()">Next</button>
     </div>
 
-    <div class="open-stats-modal" id="open-stats-modal" onclick="toggleStatsModal('open')">
-      <svg class="open-stats-modal-icon" width="179px" height="173px" viewBox="0 0 179 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <div class="tools-container">
+      <svg class="open-modal-icon" onclick="toggleModal('open', 'stats')" width="179px" height="173px" viewBox="0 0 179 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
             <path d="M116.928254,8.92901611 L116.927442,94.9280161 L116.898817,94.9290161 L116.898817,164.929016 L116.927442,164.928016 L116.927442,94.9280161 L170.918442,94.9290161 L170.918442,164.929016 L116.927442,164.928016 L116.928254,164.929016 L62.9380666,164.929016 L62.9380666,57.9290161 L62.9084418,57.9290161 L62.9086294,164.929016 L8.91844177,164.929016 L8.91844177,57.9290161 L62.9084418,57.9290161 L62.9086294,8.92901611 L116.928254,8.92901611 Z" stroke="#000000" stroke-width="16"></path>
         </g>
       </svg>
-    </div>
-    <div class="stats-modal closed" id="stats-modal">
-      <svg class="close-stats-modal" onclick="toggleStatsModal('close')" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" class="game-icon" data-testid="icon-close"><path fill="var(--color-tone-1)" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-      <h2>My stats</h2>
-      <div class="stat">
-        <p class="stat-name">Puzzles completed:</p>
-        <p class="stat-value" id="stat-value-num-completed"></p>
-      </div>
-      <div class="stat">
-        <p class="stat-name">Average puzzle completion time:</p>
-        <p class="stat-value" id="stat-value-avg-time"></p>
-      </div>
-      <div class="stat">
-        <p class="stat-name">Fastest puzzle completion time:</p>
-        <p class="stat-value" id="stat-value-min-time"></p>
-      </div>
+      <svg class="open-modal-icon" onclick="toggleModal('open', 'settings')" width="144px" height="141px" viewBox="0 0 144 141" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <path d="M86.4986913,0 C89.0574843,-1.35822107e-15 91.2033518,1.93184249 91.4712185,4.47657608 L92.7040171,16.1881629 C92.8876742,17.9329046 93.9723263,19.4537523 95.5621171,20.1956546 L105.936127,25.0368594 C107.247236,25.64871 108.759101,25.6626217 110.081247,25.0750014 L121.883765,19.8294378 C124.223239,18.7896716 126.970157,19.6850094 128.24757,21.9036733 L142.766327,47.1204621 C144.037859,49.3289123 143.445028,52.1403127 141.390033,53.6473093 L132.043182,60.5016668 C130.758806,61.4435421 130,62.940974 130,64.5336917 L130,76.4663083 C130,78.059026 130.758806,79.5564579 132.043182,80.4983332 L141.390033,87.3526907 C143.445028,88.8596873 144.037859,91.6710877 142.766327,93.8795379 L128.24757,119.096327 C126.970157,121.314991 124.223239,122.210328 121.883765,121.170562 L110.081247,115.924999 C108.759101,115.337378 107.247236,115.35129 105.936127,115.963141 L95.5621171,120.804345 C93.9723263,121.546248 92.8876742,123.067095 92.7040171,124.811837 L91.4712185,136.523424 C91.2033518,139.068158 89.0574843,141 86.4986913,141 L57.5013087,141 C54.9425157,141 52.7966482,139.068158 52.5287815,136.523424 L51.2959829,124.811837 C51.1123258,123.067095 50.0276737,121.546248 48.4378829,120.804345 L38.0638728,115.963141 C36.7527642,115.35129 35.2408989,115.337378 33.9187531,115.924999 L22.1162351,121.170562 C19.776761,122.210328 17.0298431,121.314991 15.7524305,119.096327 L1.23367332,93.8795379 C-0.0378585881,91.6710877 0.554971801,88.8596873 2.60996728,87.3526907 L11.9568183,80.4983332 C13.2411938,79.5564579 14,78.059026 14,76.4663083 L14,64.5336917 C14,62.940974 13.2411938,61.4435421 11.9568183,60.5016668 L2.60996728,53.6473093 C0.554971801,52.1403127 -0.0378585881,49.3289123 1.23367332,47.1204621 L15.7524305,21.9036733 C17.0298431,19.6850094 19.776761,18.7896716 22.1162351,19.8294378 L33.9187531,25.0750014 C35.2408989,25.6626217 36.7527642,25.64871 38.0638728,25.0368594 L48.4378829,20.1956546 C50.0276737,19.4537523 51.1123258,17.9329046 51.2959829,16.1881629 L52.5287815,4.47657608 C52.7966482,1.93184249 54.9425157,4.70042648e-16 57.5013087,0 L86.4986913,0 Z M72,43 C57.0883118,43 45,55.0883118 45,70 C45,84.9116882 57.0883118,97 72,97 C86.9116882,97 99,84.9116882 99,70 C99,55.0883118 86.9116882,43 72,43 Z" fill="#000000"></path>
+        </g>
+      </svg>
     </div>
 
-    <div class="settings-container">
-      <div class="setting">
-        <p>Split hints by word</p>
-        <input type="checkbox" oninput="toggleSettings('split-hints')" id="setting-split-hints" />
-      </div>
-      <div class="setting" id="setting-guess-clue-container">
-        <p>Allow clue guesses</p>
-        <input type="checkbox" oninput="toggleSettings('guess-clue')" id="setting-guess-clue" />
-      </div>
-      <div class="setting" id="setting-reveal-clue-container">
-        <p>Allow clue reveal</p>
-        <input type="checkbox" oninput="toggleSettings('reveal-clue')" id="setting-reveal-clue" />
-      </div>
-    </div>
+    <!-- modals get rendered here via js -->
+    <div id="modals-container"></div>
   </body>
 </html>

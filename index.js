@@ -1,5 +1,6 @@
 window.onload = () => {
   pageSetup()
+  renderModals()
   settingsSetup()
   setActivePuzzle(0)
   
@@ -227,16 +228,24 @@ window.onload = () => {
     minTimeElement.textContent = !!minTimeToComplete ? `${minTimeToComplete}s` : 'N/A'
   }
 
-  toggleStatsModal = (showOrHide) => {
+  toggleModal = (showOrHide, modalName) => {
     const shouldShow = showOrHide === 'open'
-    const statsModal = document.getElementById('stats-modal')
-    shouldShow && statsModal.classList.remove('closed')
-    !shouldShow && statsModal.classList.add('closed')
+    const modal = document.getElementById(`${modalName}-modal`)
+    shouldShow && modal.classList.remove('closed')
+    !shouldShow && modal.classList.add('closed')
 
-    populateStats()
+    switch (modalName) {
+      case 'stats':
+        populateStats()
+        break
+      case 'settings':
+
+        break
+      default:
+        break
+    }
   }
 
-  // TODO: STATS (FASTEST PUZZLE, AVERAGE TIME)
   // TODO: SETTINGS MODAL
   // TODO: TUTORIAL (GIF?, POPUP WALKTHROUGH?)
   // TODO: LOOK GOOD
