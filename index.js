@@ -2,52 +2,24 @@ window.onload = () => {
   pageSetup()
   renderModals()
   settingsSetup()
-  setActivePuzzle(0)
+  setActivePuzzle(1)
   
-  submitGuess = (guessType, rhymeNumber, nthWord) => {
-    const guessElementId = nthWord ? `guess-${rhymeNumber || guessType}-part-${nthWord}` : `guess-${rhymeNumber || guessType}`
-    const guessInput = document.getElementById(guessElementId)
+submitGuess = (e) => {
+    const guessInput = e.target
     const guess = guessInput.value
 
     if (guess === '') {
-      setStatus(guessType, rhymeNumber, nthWord, 'blank')
+      setStatus(guessInput, 'blank')
       return
     }
 
     setStatus(
-      guessType,
-      rhymeNumber,
-      nthWord,
-      guessIsCorrect(guessType, guess, rhymeNumber, nthWord) ? 'correct' : 'incorrect'
+      guessInput,
+      guessIsCorrect(guessInput, guess) ? 'correct' : 'incorrect'
     )
   }
 
-  guessIsCorrect = (guessType, guess, rhymeNumber, nthWord) => {
-    const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
-    const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
-      return !!p.clue[currentClueHint]
-    })
-    let answer = guessType === 'rhyme' ?
-      currentPuzzle.rhymes[Array.from(Object.keys(currentPuzzle.rhymes))[rhymeNumber - 1]]
-      : currentPuzzle.clue[currentClueHint]
-    if (nthWord) {
-      answer = answer.split(' ')[nthWord - 1]
-    }
-
-    const cleanedGuess = guess.replace(/ /, '').toLocaleLowerCase()
-    const cleanedAnswer = answer.replace(/ /, '').toLocaleLowerCase()
-
-    let numLettersCorrect = 0
-    for (let i = 0; i < cleanedGuess.length; i++) {
-      for (let j = 0; j < cleanedAnswer.length; j++) {
-        cleanedGuess[i] === cleanedAnswer[j] && i === j && numLettersCorrect++
-      }
-    }
-
-    return numLettersCorrect >= cleanedAnswer.length * 1.0 // lower this number to give more leeway for misspellings. TODO: smarter way to do this.
-  }
-
-  setStatus = (guessType, rhymeNumber, nthWord, status) => {
+  setStatus = (guessInput, status) => {
     let statusText = ''
     let statusClass = ''
 
@@ -64,7 +36,7 @@ window.onload = () => {
         break
     }
 
-    const statusElementId = nthWord ? `status-${rhymeNumber || guessType}-${nthWord}` : `status-${rhymeNumber || guessType}`
+    const statusElementId = `${guessInput.id}-status`
     const statusElement = document.getElementById(statusElementId)
     statusElement.textContent = statusText
     statusElement.classList.remove('correct', 'incorrect')
@@ -79,10 +51,26 @@ window.onload = () => {
     }
   }
 
+  guessIsCorrect = (guessElement, guess) => {
+    let answer = guessElement.dataset.answer
+
+    const cleanedGuess = guess.replace(/ /, '').toLocaleLowerCase()
+    const cleanedAnswer = answer.replace(/ /, '').toLocaleLowerCase()
+
+    let numLettersCorrect = 0
+    for (let i = 0; i < cleanedGuess.length; i++) {
+      for (let j = 0; j < cleanedAnswer.length; j++) {
+        cleanedGuess[i] === cleanedAnswer[j] && i === j && numLettersCorrect++
+      }
+    }
+
+    return numLettersCorrect >= cleanedAnswer.length * 1.0 // lower this number to give more leeway for misspellings. TODO: smarter way to do this.
+  }
+
   revealClue = () => {
     if (confirm('Are you sure you want to reveal the clue?')) {
       // get the clue
-      const currentClueHint = document.getElementById('clue').textContent
+      const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
       const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
         return !!p.clue[currentClueHint]
       })
@@ -105,7 +93,6 @@ window.onload = () => {
       guessWithStatusElements.forEach(element => {
         if (element.classList.contains('split')) {
           element.classList.add('hidden')
-          console.log(element.firstElementChild)
           element.firstElementChild.value = ''
         } else {
           element.classList.remove('hidden')
@@ -244,12 +231,46 @@ window.onload = () => {
       default:
         break
     }
+
+    if (`${showOrHide} ${modalName}` === 'close how-it-works') {
+      stopTutorial()
+    }
   }
 
-  // TODO: SETTINGS MODAL
+  togglePlayTutorialButtons = () => {
+    const playTutorialButton = document.getElementById('play-tutorial-button')
+    const stopTutorialButton = document.getElementById('stop-tutorial-button')
+    playTutorialButton.classList.toggle('hidden')
+    stopTutorialButton.classList.toggle('hidden')
+  }
+
+  playTutorial = () => {
+    togglePlayTutorialButtons()
+    const howItWorksModal = document.getElementById('how-it-works-modal')
+    const tutorialContainer = document.getElementById('tutorial-container')
+
+    howItWorksModal.classList.add('tutorial-active')
+  }
+
+  stopTutorial = () => {
+    const howItWorksModal = document.getElementById('how-it-works-modal')
+
+    if (howItWorksModal.classList.contains('tutorial-active')) {
+      togglePlayTutorialButtons()
+      howItWorksModal.classList.remove('tutorial-active')
+    }
+  }
+
   // TODO: TUTORIAL (GIF?, POPUP WALKTHROUGH?)
   // TODO: LOOK GOOD
   // TODO: SHARE RESULTS
   // TODO: PUZZLES FROM SHEET/OTHER JOE-EDITABLE DATA SOURCE
   // TODO: REORGANIZE CODE AGAIN (abstract get current puzzle, more intuitive file structure)
+  // SETTINGS DESCRIPTION/PICTURE/GIF?
+  // SETTINGS IN LOCAL STORAGE TO APPLY ON PUZZLE SWITCH
+  // SETTING ICON FOR SHARING/KNOW WHAT'S APPLIED IN-PUZZLE
+  // CREATE YOUR OWN PUZZLE WITH SHAREABLE LINK
+  // LEADERBOARD?
+  // ANIMATE TOOL ICONS TO X
+  // MOBILE
 }

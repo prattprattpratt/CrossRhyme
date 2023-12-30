@@ -48,6 +48,7 @@ input[type=text] {
 
 .guess-with-status {
   position: relative;
+  display: inline-block;
 }
 
 .guess-with-status.ml-auto {
@@ -123,14 +124,19 @@ input[type=text] {
   background: white;
   color: black;
   padding: 60px calc((100% - 400px) / 2) 0;
+  margin-top: 0;
   z-index: 1;
-  transition: top 0.3s, opacity 0.3s;
+  transition: top 0.3s, opacity 0.3s, margin-top 0.6s;
 }
 
 .modal.closed {
   opacity: 0;
   top: 30px;
   pointer-events: none;
+}
+
+#how-it-works-modal.tutorial-active {
+  margin-top: -300px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -153,7 +159,7 @@ input[type=text] {
 }
 
 .close-modal {
-  position: absolute;
+  position: fixed;
   right: 25px;
   top: 25px;
   height: 30px;
