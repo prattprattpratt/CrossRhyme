@@ -71,7 +71,7 @@ submitGuess = (e) => {
     if (confirm('Are you sure you want to reveal the clue?')) {
       // get the clue
       const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
-      const currentPuzzle = JSON.parse(localStorage.getItem('puzzle-data')).find(p => {
+      const currentPuzzle = puzzleData().find(p => {
         return !!p.clue[currentClueHint]
       })
       const currentClue = currentPuzzle.clue[currentClueHint]
@@ -147,7 +147,7 @@ submitGuess = (e) => {
 
   nextPuzzle = () => {
     const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
-    const currentPuzzleIndex = JSON.parse(localStorage.getItem('puzzle-data')).findIndex(p => {
+    const currentPuzzleIndex = puzzleData().findIndex(p => {
       return !!p.clue[currentClueHint]
     })
     setActivePuzzle(currentPuzzleIndex + 1)
@@ -155,7 +155,7 @@ submitGuess = (e) => {
 
   logPuzzleStats = () => {
     const currentClueHint = document.getElementById('clue').textContent.split(': ')[1]
-    const currentPuzzleIndex = JSON.parse(localStorage.getItem('puzzle-data')).findIndex(p => {
+    const currentPuzzleIndex = puzzleData().findIndex(p => {
       return !!p.clue[currentClueHint]
     })
 
