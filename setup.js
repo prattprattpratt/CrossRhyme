@@ -168,15 +168,16 @@ renderModals = () => {
       <button id="play-tutorial-button" onclick="playTutorial()">Play tutorial</button>
       <button id="stop-tutorial-button" class="hidden" onclick="stopTutorial()">Stop tutorial</button>
       <div id="tutorial-container">
-        <h2 id="tutorial-clue">Clue #1: ${tutorialPuzzleClue}</h2>
-        <div class="guess-with-status">
+        <h2 class="hide" id="tutorial-clue">Clue #1: ${tutorialPuzzleClue}</h2>
+        <div class="guess-with-status hide" id="tutorial-clue-guess">
           <input type="text" class="guess guess-whole" oninput="submitGuess(event)" id="guess-tutorial-clue" data-answer="${tutorialPuzzle.clue[tutorialPuzzleClue]}" />
           <span class="guess-status" id="guess-tutorial-clue-status"></span>
+          <div class="tutorial-hint-popup hide" id="tutorial-clue-hint">Type your answer here</div>
         </div>
         ${Object.keys(tutorialPuzzle.rhymes).map((rhymeHint, i) => {
           i += 1
           return `
-            <div class="form">
+            <div class="form hide">
               <h3 class="hint" id="hint-tutorial-${i}">Rhyme #${i}: ${rhymeHint}</h3>
               <div class="guess-with-status">
                 <input type="text" class="guess guess-whole" oninput="submitGuess(event)" id="guess-tutorial-rhyme-${i}" data-answer="${tutorialPuzzle.rhymes[rhymeHint]}" />

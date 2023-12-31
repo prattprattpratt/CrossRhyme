@@ -38,7 +38,8 @@ h3, input, span, button {
   text-align: left;
 }
 
-input[type=text] {
+.rhyme-guess-container input[type=text],
+.clue-guess-container input[type=text] {
   margin: 0 -1px 0 16px;
 }
 
@@ -165,6 +166,15 @@ input[type=text] {
   height: 30px;
   width: 30px;
   cursor: pointer;
+}
+
+#tutorial-container * {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+#tutorial-container *[class*="hide"] {
+  opacity: 0;
 }
 
 .stat {

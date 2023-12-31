@@ -247,9 +247,25 @@ submitGuess = (e) => {
   playTutorial = () => {
     togglePlayTutorialButtons()
     const howItWorksModal = document.getElementById('how-it-works-modal')
-    const tutorialContainer = document.getElementById('tutorial-container')
 
     howItWorksModal.classList.add('tutorial-active')
+
+    window.setTimeout(() => {
+      const tutorialClue = document.getElementById('tutorial-clue')
+      tutorialClue.classList.remove('hide')
+      const tutorialClueGuess = document.getElementById('tutorial-clue-guess')
+      tutorialClueGuess.classList.remove('hide')
+      
+      const startTime = Date.now()
+      window.tutorialTimer = window.setInterval(() => {
+        const msElapsed = Date.now() - startTime
+        if (msElapsed >= 5000) {
+          window.clearInterval(window.tutorialTimer)
+          const hintPopup = document.getElementById('tutorial-clue-hint')
+          hintPopup.classList.remove('hide')
+        }
+      }, 1000)
+    }, 1000)
   }
 
   stopTutorial = () => {
